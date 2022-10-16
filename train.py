@@ -13,7 +13,7 @@ def main():
     # 数据转换
     data_transform = transforms.Compose([
         transforms.RandomHorizontalFlip(),  # 随机水平翻转，数据增强
-        transforms.Grayscale(num_output_channels=1),    # 灰度图通道设为1，彩色图不要这句好
+        transforms.Grayscale(num_output_channels=1),    # 灰度图通道设为1，彩色图不要这句话
         transforms.ToTensor(),              # 这个必须要有，转化为tensor。（会自动归一化数据）
         transforms.Normalize(mean=[0.17], std=[0.05])   # 标准化（训练集图片归一化后的均值大概是0.17，标准差0.05），加快收敛，不要影响也不大
     ])

@@ -12,11 +12,10 @@
 本项目采集的煤84张，矸石91张，原图大小为2448×2048，经过图像算法处理后，裁取得到224×224的图像，样本示例如图：
 左为煤，右为矸石。
 
-<img src="coal.bmp" width="200px"/>
-<img src="gangue.bmp" width="200px"/>
+<img src="coal.bmp" width="200px"/> <img src="gangue.bmp" width="200px"/>
 
 ## 使用
-请先解压样本（0是矸石，1是煤），运行train得到权重文件CNN.py, 再运行predict进行预测
+请先解压样本（0是矸石，1是煤），运行train得到权重文件CNN.py, 再运行predict进行预测。
 
 ## 训练过程
 <img src="train.png" width="600px"/>

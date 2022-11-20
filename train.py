@@ -61,6 +61,7 @@ def main():
     val_set_acc = []
 
     # 开始训练
+    model.train()
     for ep in range(epoch):  # loop over the dataset multiple times
         running_loss = 0
         trainset_right = 0

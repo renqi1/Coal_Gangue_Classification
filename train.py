@@ -92,7 +92,7 @@ def main():
             with torch.no_grad():
                 outputs2 = model(val_image.cuda()).cpu()
                 predict_y2 = torch.max(outputs2, dim=1)[1]
-                val_loss = loss_function(outputs2,predict_y2)
+                val_loss = loss_function(outputs2, predict_y2)
                 accuracy = torch.eq(predict_y2, val_label).sum().item() / val_label.size(0)
                 print('epoch:[%d/%d] step:[%d/%d]  train_loss: %.3f  val_loss: %.3f  val_accuracy: %.3f' %
                         (ep + 1, epoch, step + 1, len(train_loader), val_loss.item(), train_loss.item(), accuracy))
@@ -105,19 +105,24 @@ def main():
         val_set_loss.append(val_loss)
 
     print('Finished Training')
-
+    
+    # 保存模型
+    save_path = './model/CNN.pth'
+    torch.save(model.state_dict(), save_path)
+    
+    
     # 可视化，为了写论文
     # 你也可以用vison,tensorbord等可视化工具实时获取损失图像
     epo = numpy.arange(0, len(train_set_acc), 1)
-    plt.subplot(2,1,1)
-    plt.plot(epo, train_set_loss,color='red',label='train set')
-    plt.plot(epo, val_set_loss, color='blue',label='validation set')
+    plt.subplot(2, 1, 1)
+    plt.plot(epo, train_set_loss, color='red', label='train set')
+    plt.plot(epo, val_set_loss, color='blue', label='validation set')
     plt.legend()
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
     plt.title('loss function of train set and validation set')
     plt.subplots_adjust(hspace=0.5)
-    plt.subplot(2,1,2)
+    plt.subplot(2, 1, 2)
     plt.plot(epo, train_set_acc,color='red',label='train set')
     plt.plot(epo, val_set_acc, color='blue',label='validation set')
     plt.legend()
@@ -125,10 +130,6 @@ def main():
     plt.ylabel('Accuracy')
     plt.title('accuracy function of train set and validation set')
     plt.show()
-
-    # 保存模型
-    save_path = './model/CNN.pth'
-    torch.save(model.state_dict(), save_path)
 
 if __name__ == '__main__':
     main()

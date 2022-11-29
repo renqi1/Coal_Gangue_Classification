@@ -66,21 +66,22 @@ def main():
         running_loss = 0
         trainset_right = 0
         for step, (x, y) in enumerate(train_loader, start=0):
-            # get the inputs; data is a list of [inputs, labels]
+            # 取出的数据也要转到gpu
             inputs = x.cuda()
             labels = y.cuda()
-
-            # zero the parameter gradients
+            # 优化器梯度清零
             optimizer.zero_grad()
-            # forward + backward + optimize
+            # 前向传播
             outputs1 = model(inputs)
-
             # 统计训练集分类正确个数，用于验证训练集的正确率
+            # ouputs1维度为[batchsize,2]，取第1维（类别）最大的索引为类别（0或1）
             predict_y1 = torch.max(outputs1, dim=1)[1]
             trainset_right += torch.eq(predict_y1, labels).sum().item()
-
+            # 计算损失
             train_loss = loss_function(outputs1, labels)
+            # 反向传播
             train_loss.backward()
+            # 更新优化器
             optimizer.step()
 
             # 如果你不验证的话，那么至此训练过程就写完了，很简单吧
@@ -91,6 +92,7 @@ def main():
             # 如果你的验证集数量特别多，建议编写一个evaluate函数用于验证
             running_loss += train_loss.item()
             with torch.no_grad():
+                # 数据要取回cpu才能绘图
                 outputs2 = model(val_image.cuda()).cpu()
                 predict_y2 = torch.max(outputs2, dim=1)[1]
                 val_loss = loss_function(outputs2, predict_y2)
